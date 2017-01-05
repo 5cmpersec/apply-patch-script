@@ -2,15 +2,20 @@
 
 ################################################################################
 # NAME: Script for applying patch
-# VERSION: 0.0.1
-# AUTHOR: Vu Thanh Cong
-# DATE: 14/Dec/2016
+# VERSION: 0.0.2
+# AUTHOR: Vu Thanh Cong (thanhcong.vu@vn.panasonic.com)
+# DATE: 03/Jan/2017
 ################################################################################
 # How to use!
 # 1. Create folder [patches] under ANDROID_ROOT
-# 2. Copy this script apply_patch.py to folder [patches]
+# 2. Copy this script [apply_patch.py] to folder [patches]
 # 3. Copy all patches folder to folder [patches]
-# 4. Run ./apply_patch.sh
+# 4. Run [$python apply_patch.py]
+################################################################################
+# How to deal with failed patches.
+# 1. Go to each projects and check why it was failed
+# 2. Resolve conflicts manually
+# 3. Continue or Abort apply process by "git am" command
 ################################################################################
 
 import sys
@@ -31,9 +36,9 @@ def main(argv):
     # Check current directory
     cwd = os.getcwd()
     android_root = os.path.abspath(os.path.join(cwd, os.pardir))
-    #if not os.path.exists(android_root + "/.repo"):
-    #    print bcolors.WARNING + "This folder is not under root of Android source tree!" + bcolors.ENDC
-    #    sys.exit(1)
+    if not os.path.exists(android_root + "/.repo"):
+        print bcolors.WARNING + "This folder is not under root of Android source tree!" + bcolors.ENDC
+        sys.exit(1)
     # Iterate all directory and apply patch
     dirs = os.walk(cwd).next()[1]
     success=0
@@ -78,7 +83,6 @@ def git_am(project_dir, patch_dir):
     if rc!=0:
         print t
     return rc
-
 
 if __name__ == '__main__':
     try:
