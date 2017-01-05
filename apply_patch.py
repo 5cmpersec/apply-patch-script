@@ -74,12 +74,17 @@ def git_am(project_dir, patch_dir):
     MOVE_TO_DIR = "cd {}".format(project_dir)
     AM_CMD = "git am --quiet {}/*.patch".format(patch_dir)
     FULL_CMD = "{0} && {1}".format(MOVE_TO_DIR, AM_CMD)
+    project_dir_colored = (bcolors.OKBLUE + "[{}]" + bcolors.ENDC).format(project_dir)
+
+    #print "=> Applying to ", project_dir_colored,
+    sys.stdout.write("=> {}".format(project_dir_colored))
+    sys.stdout.flush()
     process = Popen(FULL_CMD, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
     t = process.communicate()[0]
     rc = process.returncode
     retmsg = (bcolors.OKGREEN + "[OK]" + bcolors.ENDC) if rc==0 else (bcolors.FAIL + "[Failed]" + bcolors.ENDC)
-    project_dir_colored = (bcolors.OKBLUE + "[{}]" + bcolors.ENDC).format(project_dir)
-    print "=> Applying to {0} ...... {1}".format(project_dir_colored, retmsg)
+    print " ......", retmsg
+
     if rc!=0:
         print t
     return rc
