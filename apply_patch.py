@@ -2,9 +2,9 @@
 
 ################################################################################
 # NAME: Script for applying patch
-# VERSION: 0.0.2
+# VERSION: 0.0.3
 # AUTHOR: Vu Thanh Cong (thanhcong.vu@vn.panasonic.com)
-# DATE: 03/Jan/2017
+# DATE: 28/Feb/2017
 ################################################################################
 # How to use!
 # 1. Create folder [patches] under ANDROID_ROOT
@@ -44,7 +44,7 @@ def main(argv):
     success=0
     fail=0
     for folder in dirs:
-        project_dir = android_root + "/" + folder.replace("-","/")
+        project_dir = android_root + "/" + folder.replace("--","/")
         patch_dir = cwd + "/" + folder
         if not os.path.exists(project_dir):
             print (bcolors.WARNING + "[{}] not exists" + bcolors.ENDC).format(project_dir)
